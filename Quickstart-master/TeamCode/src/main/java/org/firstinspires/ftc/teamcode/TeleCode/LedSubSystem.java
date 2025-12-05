@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.TeleCode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LED;
 
-public class LED {
-    private  L redLED;
+public class LedSubSystem {
+    private  LED redLED;
     private LED greenLED;
 
-    public LED(HardwareMap hwMap) {
+    public LedSubSystem(HardwareMap hwMap) {
         redLED = hwMap.get(LED.class, "red_LED");
         greenLED = hwMap.get(LED.class, "green_LED");
     }

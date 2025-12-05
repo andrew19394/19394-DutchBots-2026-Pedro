@@ -5,15 +5,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.TeleCode.IndexerServos;
 import org.firstinspires.ftc.teamcode.TeleCode.Intake;
-import org.firstinspires.ftc.teamcode.TeleCode.Lancher;
+import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
+import org.firstinspires.ftc.teamcode.TeleCode.LedSubSystem;
 import org.firstinspires.ftc.teamcode.TeleCode.RobotDrive;
+
 
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
     private IndexerServos flipper;
     private Intake intake;
-    private Lancher lanch;
+    private Launcher launch;
     private RobotDrive drive;
+    private LedSubSystem lights;
     double forward, strafe, rotate ;
 
     @Override
@@ -21,7 +24,7 @@ public class FieldOrientatedOpMode extends OpMode {
         flipper = new IndexerServos(hardwareMap);
         intake = new Intake(hardwareMap);
         drive = new RobotDrive(hardwareMap);
-        lanch = new Lancher(hardwareMap);
+        launch = new Launcher(hardwareMap);
     }
 
     @Override
@@ -48,10 +51,10 @@ public class FieldOrientatedOpMode extends OpMode {
 
             //Flipper 3 code
             if (gamepad2.dpad_right) {
-                flipper.setFlipper_3(0.7);
+                flipper.setFlipper_3(0.35);
             }
             else {
-                flipper.setFlipper_3(1);
+                flipper.setFlipper_3(0.0);
             }
 
 
@@ -63,22 +66,24 @@ public class FieldOrientatedOpMode extends OpMode {
             intake.intake(0.0);
         }
 
-        //Shoot the launcher
-        if (gamepad2.x) {
-            lanch.shoot(1);
-        }
-        else {
-            lanch.shoot(0);
-        }
+        //Lights of Led green is ready, red is not ready
 
-        //Close Range
-        if (gamepad2.b) {
-            lanch.setHood(1);
-        }
-        else {
-            lanch.setHood(0);
-        }
 
+//        //Shoot the launcher
+//        if (gamepad2.x) {
+//            lanch.shoot(1);
+//        }
+//        else {
+//            lanch.shoot(0);
+//        }
+//
+//        //Close Range
+//        if (gamepad2.b) {
+//            lanch.setHood(1);
+//        }
+//        else {
+//            lanch.setHood(0);
+//        }
 
         drive.driveFieldRelative(forward,strafe,rotate);
     }
