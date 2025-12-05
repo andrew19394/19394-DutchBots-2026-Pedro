@@ -13,6 +13,8 @@ public class IndexerServos {
         flipper_1 = hwMap.get(Servo.class,"flipper_1");
         flipper_2 = hwMap.get(Servo.class,"flipper_2");
         flipper_3 = hwMap.get(Servo.class,"flipper_3");
+
+        flipper_1.setDirection(Servo.Direction.REVERSE);
     }
 
     //Methods for the Flippers

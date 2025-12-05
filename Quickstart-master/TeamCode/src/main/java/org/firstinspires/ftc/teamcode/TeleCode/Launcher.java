@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class Launcher {
 
     private final DcMotorEx launcher;
-    private Servo hood;
+    private final Servo hood;
 
     public Launcher(HardwareMap hwMap) {
         launcher = hwMap.get(DcMotorEx.class,"launcher");

@@ -29,21 +29,21 @@ public class FieldOrientatedOpMode extends OpMode {
 
     @Override
     public void loop() {
-        forward = -gamepad1.left_stick_y;
-        strafe = gamepad1.left_stick_x;
+        forward = gamepad1.left_stick_y;
+        strafe = -gamepad1.left_stick_x;
         rotate = gamepad1.right_stick_x;
 
             //Flipper 1 code
             if (gamepad2.dpad_up) {
-                flipper.setFlipper_1(0.53);
+                flipper.setFlipper_1(0.8);
             }
             else {
-                flipper.setFlipper_1(0.6);
+                flipper.setFlipper_1(0.4);
             }
 
             //Flipper 2 code
             if (gamepad2.dpad_left) {
-                flipper.setFlipper_2(0.4);
+                flipper.setFlipper_2(0.6);
             }
             else {
                 flipper.setFlipper_2(0.08);
@@ -59,32 +59,37 @@ public class FieldOrientatedOpMode extends OpMode {
 
 
         //Intake front intake
-        if (gamepad2.a) {
-            intake.intake(-1);
+        if (gamepad2.left_bumper) {
+            intake.intake(-0.9);
         }
         else {
             intake.intake(0.0);
         }
 
-        //Lights of Led green is ready, red is not ready
+        //Shoot the launcher
+        if (gamepad2.right_bumper) {
+            launch.shoot(-1);
+        }
+        else {
+            launch.shoot(0);
+        }
 
+        //Close Range
+        if (gamepad2.b) {
+            launch.setHood(0.5);
+        }
+        else {
+            launch.setHood(0.2);
+        }
 
-//        //Shoot the launcher
-//        if (gamepad2.x) {
-//            lanch.shoot(1);
+        //Mid Range
+//        if (gamepad2.y) {
+//            launch.setHood(0.9);
 //        }
 //        else {
-//            lanch.shoot(0);
-//        }
-//
-//        //Close Range
-//        if (gamepad2.b) {
-//            lanch.setHood(1);
-//        }
-//        else {
-//            lanch.setHood(0);
+//            launch.setHood(0.2);
 //        }
 
-        drive.driveFieldRelative(forward,strafe,rotate);
+        drive.drive(forward,strafe,rotate);
     }
 }
