@@ -82,7 +82,7 @@ public class FieldOrientatedOpMode extends OpMode {
             launch.setHood(0.2);
         }
 
-        //Mid Range
+//        Mid Range
 //        if (gamepad2.y) {
 //            launch.setHood(0.9);
 //        }

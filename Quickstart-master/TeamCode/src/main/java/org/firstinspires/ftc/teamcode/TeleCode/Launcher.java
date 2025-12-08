@@ -23,7 +23,6 @@ public class Launcher {
         configR.setAchieveableMaxRPMFraction(1.0);
         launcher.setMotorType(configR);
         launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launcher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void setHood(double angle) {
