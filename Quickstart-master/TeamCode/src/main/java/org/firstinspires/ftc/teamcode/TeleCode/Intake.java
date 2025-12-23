@@ -7,19 +7,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake {
 
     private DcMotor front_intake;
+    private DcMotor back_intake;
 
     public Intake(HardwareMap hwMap) {
         front_intake = hwMap.get(DcMotor.class, "front_intake");
-//        back_intake = hwMap.get(DcMotor.class, "back_intake");
+        back_intake = hwMap.get(DcMotor.class, "back_intake");
 
-//        back_intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        back_intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
         front_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        back_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        back_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void intake(double Fpower) {
+    public void intake(double Fpower, double Bpower) {
         front_intake.setPower(Fpower);
-//        back_intake.setPower(Bpower);
+        back_intake.setPower(Bpower);
     }
 }

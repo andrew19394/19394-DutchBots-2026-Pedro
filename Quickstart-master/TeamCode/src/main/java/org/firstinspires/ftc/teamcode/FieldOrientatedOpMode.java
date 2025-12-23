@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
 import org.firstinspires.ftc.teamcode.TeleCode.LedSubSystem;
 import org.firstinspires.ftc.teamcode.TeleCode.RobotDrive;
 
-
+@Disabled
 @TeleOp
 public class FieldOrientatedOpMode extends OpMode {
     private IndexerServos flipper;
@@ -33,37 +34,54 @@ public class FieldOrientatedOpMode extends OpMode {
         strafe = -gamepad1.left_stick_x;
         rotate = gamepad1.right_stick_x;
 
-            //Flipper 1 code
+            //Flipper's code
             if (gamepad2.dpad_up) {
                 flipper.setFlipper_1(0.8);
             }
-            else {
-                flipper.setFlipper_1(0.4);
-            }
-
-            //Flipper 2 code
-            if (gamepad2.dpad_left) {
+            else if (gamepad2.dpad_left){
                 flipper.setFlipper_2(0.6);
             }
-            else {
-                flipper.setFlipper_2(0.08);
-            }
-
-            //Flipper 3 code
-            if (gamepad2.dpad_right) {
+            else if (gamepad2.dpad_right) {
                 flipper.setFlipper_3(0.35);
             }
-            else {
+            else if (gamepad2.dpad_down) {
+                flipper.setFlipper_1(0.8);
+                flipper.setFlipper_1(0.4);
+                flipper.setFlipper_2(0.6);
+                flipper.setFlipper_2(0.08);
+                flipper.setFlipper_3(0.35);
+                flipper.setFlipper_3(0.0);
+            } else {
+                flipper.setFlipper_1(0.4);
+                flipper.setFlipper_2(0.08);
                 flipper.setFlipper_3(0.0);
             }
 
+            //Flipper 2 code
+//            if (gamepad2.dpad_left) {
+//                flipper.setFlipper_2(0.6);
+//            }
+//            else {
+//                flipper.setFlipper_2(0.08);
+//            }
+//
+//            Flipper 3 code
+//            if (gamepad2.dpad_right) {
+//                flipper.setFlipper_3(0.35);
+//            }
+//            else {
+//                flipper.setFlipper_3(0.0);
+//            }
 
-        //Intake front intake
+
+        //Both Intakes code
         if (gamepad2.left_bumper) {
-            intake.intake(-0.9);
+            intake.intake(-1, 1);
+        } else if (gamepad2.square) {
+            intake.intake(1, -1);
         }
         else {
-            intake.intake(0.0);
+            intake.intake(0.0, 0.0);
         }
 
         //Shoot the launcher
@@ -73,6 +91,7 @@ public class FieldOrientatedOpMode extends OpMode {
         else {
             launch.shoot(0);
         }
+
 
         //Close Range
         if (gamepad2.b) {

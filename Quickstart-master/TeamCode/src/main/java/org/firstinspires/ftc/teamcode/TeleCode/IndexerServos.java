@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleCode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@Disabled
 public class IndexerServos {
     private Servo flipper_1;
     private Servo flipper_2;
