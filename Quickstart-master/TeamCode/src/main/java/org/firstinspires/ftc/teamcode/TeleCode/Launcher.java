@@ -13,24 +13,32 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class Launcher {
 
     private final DcMotorEx launcher;
+    private final DcMotorEx launcher2;
     private final Servo hood;
 
     public Launcher(HardwareMap hwMap) {
         launcher = hwMap.get(DcMotorEx.class,"launcher");
+        launcher2 = hwMap.get(DcMotorEx.class, "launcher2");
         hood = hwMap.get(Servo.class, "hood");
 
         MotorConfigurationType configR = launcher.getMotorType().clone();
         configR.setAchieveableMaxRPMFraction(1.0);
         launcher.setMotorType(configR);
         launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        MotorConfigurationType configT = launcher2.getMotorType().clone();
+        configT.setAchieveableMaxRPMFraction(1.0);
+        launcher2.setMotorType(configR);
+        launcher2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void setHood(double angle) {
         hood.setPosition(angle);
     }
 
-    public void shoot(double speed) {
+    public void shoot(double speed, double speed2) {
         launcher.setPower(speed);
+        launcher2.setPower(speed2);
     }
 //    public void telemetry(TelemetryManager telemetry) {
 //        telemetry.addData("Launcher Current", launcher.getCurrent(CurrentUnit.MILLIAMPS));

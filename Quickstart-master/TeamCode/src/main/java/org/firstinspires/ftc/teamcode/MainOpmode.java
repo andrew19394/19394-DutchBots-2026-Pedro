@@ -3,19 +3,21 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.TeleCode.LimeLight;
+import org.firstinspires.ftc.teamcode.TeleCode.Intake;
+import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
 import org.firstinspires.ftc.teamcode.TeleCode.RobotDrive;
 
 @TeleOp
 public class MainOpmode extends OpMode {
     private RobotDrive drive;
-    private LimeLight limelight;
+    private Intake intake;
+    private Launcher launcher;
     double forward, strafe, rotate ;
 
     @Override
     public void init() {
         drive = new RobotDrive(hardwareMap);
-        limelight = new LimeLight(hardwareMap);
+        intake = new Intake(hardwareMap);
     }
 
 
@@ -28,17 +30,36 @@ public class MainOpmode extends OpMode {
         rotate = gamepad1.right_stick_x;
         drive.drive(forward,strafe,rotate);
 
-        //LimeLight code that uses the LimeLight subclass
+        //Intake and feeder code
+        if (gamepad2.a) {
+            intake.intake(1, 1,-1);
+        }
+        else if (gamepad2.b) {
+            intake.intake(1,1,1);
+        }
+        else {
+            intake.intake(0, 0, 0);
+        }
+
+        //Launcher Code
+        if (gamepad2.x) {
+            launcher.shoot(1,-1);
+        }
+        else {
+            launcher.shoot(0,0);
+        }
+
+        //Hood code
         if (gamepad1.dpad_up) {
-            limelight.findBlueTag();
+            launcher.setHood(.5);
         }
-        else if (gamepad1.dpad_down) {
-            limelight.findRedTag();
+        else {
+            launcher.setHood(0);
         }
 
-        if (
 
-        }
+
+
 
 
     }

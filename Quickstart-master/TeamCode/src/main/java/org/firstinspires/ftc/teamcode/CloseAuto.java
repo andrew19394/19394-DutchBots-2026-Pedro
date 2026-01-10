@@ -57,7 +57,7 @@ public class CloseAuto extends OpMode {
             case Drive_STARTPOS_SHOOT_POS:
                 follower.followPath(driveStartPosShootPos, true);
                 launcher.setHood(0.25);
-                launcher.shoot(-1.0);
+                launcher.shoot(-1.0, 1.0);
                 pathTimer.reset();
                 servoTimer.reset();
                 setPathState(PathState.SHOOT_PRELOAD);

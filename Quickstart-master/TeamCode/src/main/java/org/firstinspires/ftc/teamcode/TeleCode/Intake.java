@@ -1,26 +1,26 @@
 package org.firstinspires.ftc.teamcode.TeleCode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
 
     private DcMotor front_intake;
-    private DcMotor back_intake;
+    private CRServo feed;
+    private CRServo fire;
 
     public Intake(HardwareMap hwMap) {
         front_intake = hwMap.get(DcMotor.class, "front_intake");
-        back_intake = hwMap.get(DcMotor.class, "back_intake");
-
-        back_intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        feed = hwMap.get(CRServo.class, "feed_servo");
+        fire = hwMap.get(CRServo.class, "feed_servo");
 
         front_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        back_intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void intake(double Fpower, double Bpower) {
-        front_intake.setPower(Fpower);
-        back_intake.setPower(Bpower);
+    public void intake(double Ipower, double Spower, double Fpower) {
+        front_intake.setPower(Ipower);
+        feed.setPower(Spower);
+        fire.setPower(Fpower);
     }
 }

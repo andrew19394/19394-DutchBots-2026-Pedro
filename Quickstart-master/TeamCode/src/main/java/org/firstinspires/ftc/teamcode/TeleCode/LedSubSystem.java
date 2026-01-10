@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.TeleCode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LED;
 
+@Disabled
 public class LedSubSystem {
     private  LED redLED;
     private LED greenLED;
