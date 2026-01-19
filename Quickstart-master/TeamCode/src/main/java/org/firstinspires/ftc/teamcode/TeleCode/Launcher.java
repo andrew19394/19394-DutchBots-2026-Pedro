@@ -14,12 +14,16 @@ public class Launcher {
 
     private final DcMotorEx launcher;
     private final DcMotorEx launcher2;
+    private final DcMotorEx turret;
     private final Servo hood;
 
     public Launcher(HardwareMap hwMap) {
         launcher = hwMap.get(DcMotorEx.class,"launcher");
         launcher2 = hwMap.get(DcMotorEx.class, "launcher2");
+        turret = hwMap.get(DcMotorEx.class, "turret");
         hood = hwMap.get(Servo.class, "hood");
+
+        turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         MotorConfigurationType configR = launcher.getMotorType().clone();
         configR.setAchieveableMaxRPMFraction(1.0);
@@ -36,11 +40,44 @@ public class Launcher {
         hood.setPosition(angle);
     }
 
-    public void shoot(double speed, double speed2) {
+    public void shoot(double speed, double thing) {
         launcher.setPower(speed);
-        launcher2.setPower(speed2);
+        launcher2.setPower(thing);
     }
-//    public void telemetry(TelemetryManager telemetry) {
-//        telemetry.addData("Launcher Current", launcher.getCurrent(CurrentUnit.MILLIAMPS));
-//    }
+
+    public void moveturret(double Tpower) {
+        turret.setPower(Tpower);
+    }
+
+    // Tune these values based on your turret's gear ratio
+    // If the turret moves away from the target, flip the sign of Kp (e.g., -0.03)
+    private final double Kp = -0.015;
+    private final double min_command = -0.02;
+
+    /**
+     * Automatically calculates power to center the turret on a target.
+     * @param tx The horizontal offset from the Limelight (degrees)
+     */
+    public void autoTurret(double tx) {
+        double turretPower = 0;
+
+        // Only move if we are more than 2 degree off-center (Deadband)
+        if (Math.abs(tx) > 2.0) {
+            // Calculate proportional power
+            turretPower = tx * Kp;
+
+            // Add/Subtract minimum power to overcome mechanical friction
+            if (tx > 0) {
+                turretPower += min_command;
+            } else {
+                turretPower -= min_command;
+            }
+        }
+
+        // Clamp the power between -1 and 1 just in case
+        if (turretPower > 1.0) turretPower = 1.0;
+        if (turretPower < -1.0) turretPower = -1.0;
+
+        moveturret(turretPower);
+    }
 }

@@ -1,46 +1,63 @@
 package org.firstinspires.ftc.teamcode.TeleCode;
 
-
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.Telemetry; // Use this instead of Blocks
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-@Disabled
 public class LimeLight {
 
     private Limelight3A limelight;
     private IMU imu;
-    int tag = 0;
+
     public LimeLight(HardwareMap hwMap) {
         limelight = hwMap.get(Limelight3A.class, "limelight");
-        limelight.pipelineSwitch(0); //Sets it to the blue april tag to be the correct one
+        limelight.pipelineSwitch(0);
+
         imu = hwMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
+        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
         imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
+
+        limelight.start(); // Ensure the limelight starts capturing
     }
 
+    /**
+     * Checks if the Limelight currently sees a valid target.
+     */
+    public boolean hasTarget() {
+        LLResult result = limelight.getLatestResult();
+        return (result != null && result.isValid());
+    }
 
-    public void telemetry() {
+    /**
+     * Gets the horizontal offset (tx) from the target.
+     */
+    public double getTx() {
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            return result.getTx();
+        }
+        return 0;
+    }
+
+    // Pass the telemetry object from your MainOpmode into here
+    public void limetelemetry(Telemetry telemetry) {
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw());
         LLResult llResult = limelight.getLatestResult();
+
         if (llResult != null && llResult.isValid()) {
-            Pose3D botPose = llResult.getBotpose();
-            telemetry.addData("Target X: ", llResult.getTx());
-            telemetry.addData("Target Y: ", llResult.getTy());
-            telemetry.addData("Target Area: ", llResult.getTa());
-            telemetry.addData("Bot Pose: ", botPose.toString());
-            telemetry.addData("Yaw: ", botPose.getOrientation().getYaw());
+            telemetry.addData("Limelight Target", "LOCKED");
+            telemetry.addData("TX", llResult.getTx());
+            telemetry.addData("TY", llResult.getTy());
+        } else {
+            telemetry.addData("Limelight Target", "LOST");
         }
     }
 }
