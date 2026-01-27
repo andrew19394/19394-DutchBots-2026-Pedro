@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.TeleCode.Intake;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
 import org.firstinspires.ftc.teamcode.TeleCode.IndexerServos;
@@ -17,7 +18,7 @@ public class CloseAuto extends OpMode {
 
     private Follower follower;
     private Launcher launcher;
-    private IndexerServos flipper;
+    private Intake intake;
 
     private ElapsedTime pathTimer = new ElapsedTime();
     private ElapsedTime servoTimer = new ElapsedTime();
@@ -70,12 +71,10 @@ public class CloseAuto extends OpMode {
 
                 if (!follower.isBusy()) {
 
-                    flipper.setFlipper_2(0.6);
                 }
 
                 if(pathTimer.seconds() >= 5)
                 {
-                    flipper.setFlipper_2(0.08);
                     setPathState(PathState.DRIVE_SHOOTPOS_INTAKE1POS);
                 }
 
@@ -106,7 +105,7 @@ public class CloseAuto extends OpMode {
         follower.setStartingPose(startPose);
 
         launcher = new Launcher(hardwareMap);
-        flipper = new IndexerServos(hardwareMap);
+        intake = new Intake(hardwareMap);
         // todo add in any other init mechanisms below example flywheel, limelight
 
         buildPaths();

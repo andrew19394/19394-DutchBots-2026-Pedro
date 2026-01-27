@@ -27,17 +27,17 @@ public class LimeLight {
         limelight.start(); // Ensure the limelight starts capturing
     }
 
-    /**
-     * Checks if the Limelight currently sees a valid target.
-     */
+
+     // Checks if the Limelight currently sees a valid target.
+
     public boolean hasTarget() {
         LLResult result = limelight.getLatestResult();
         return (result != null && result.isValid());
     }
 
-    /**
-     * Gets the horizontal offset (tx) from the target.
-     */
+
+     //Gets the horizontal offset (tx) from the target.
+
     public double getTx() {
         LLResult result = limelight.getLatestResult();
         if (result != null && result.isValid()) {

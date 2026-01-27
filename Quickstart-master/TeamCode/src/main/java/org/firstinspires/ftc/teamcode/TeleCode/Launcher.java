@@ -49,20 +49,14 @@ public class Launcher {
         turret.setPower(Tpower);
     }
 
-    // Tune these values based on your turret's gear ratio
-    // If the turret moves away from the target, flip the sign of Kp (e.g., -0.03)
     private final double Kp = -0.015;
     private final double min_command = -0.02;
 
-    /**
-     * Automatically calculates power to center the turret on a target.
-     * @param tx The horizontal offset from the Limelight (degrees)
-     */
     public void autoTurret(double tx) {
         double turretPower = 0;
 
         // Only move if we are more than 2 degree off-center (Deadband)
-        if (Math.abs(tx) > 2.0) {
+        if (Math.abs(tx) > 1.5) {
             // Calculate proportional power
             turretPower = tx * Kp;
 

@@ -8,8 +8,10 @@ import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
 import org.firstinspires.ftc.teamcode.TeleCode.LimeLight;
 import org.firstinspires.ftc.teamcode.TeleCode.RobotDrive;
 
+
 @TeleOp
 public class MainOpmode extends OpMode {
+
     private RobotDrive drive;
     private Intake intake;
     private Launcher launcher;
@@ -28,32 +30,41 @@ public class MainOpmode extends OpMode {
 
     @Override
     public void loop() {
-        //Drive code that uses the RobotDrive subclass
+        double triggerValue = gamepad2.right_trigger;
+        double triggerValue2 = gamepad2.left_trigger;
+
+        // Drive code that uses the RobotDrive subclass
         forward = -gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         rotate = gamepad1.right_stick_x;
         drive.drive(forward,strafe,rotate);
 
-        //Intake and feeder code
+        // Intake and feeder code
         if (gamepad2.left_bumper) {
-            intake.intake(1, -1,-1, 1);
+            intake.intake(-1, 0.5);
         }
         else if (gamepad2.dpad_up) {
-            intake.intake(1,-1,1, -1);
+            intake.intake(-1,1);
+        }
+        else if (gamepad2.left_trigger > 0.9) {
+            intake.intake(1,0.5);
         }
         else {
-            intake.intake(0, 0, 0, 0);
+            intake.intake(0, 0.5);
         }
 
-        //Launcher Code
+        // Launcher Code
         if (gamepad2.right_bumper) {
-            launcher.shoot(0.5,-0.5);
+            launcher.shoot(1,-1);
+        }
+        else if (gamepad2.x) {
+            launcher.shoot(0.6, -0.6);
         }
         else {
             launcher.shoot(0,0);
         }
 
-        //Hood code
+        // Hood code
         if (gamepad2.a) {
             launcher.setHood(.55);
         }
@@ -62,8 +73,8 @@ public class MainOpmode extends OpMode {
         }
 
         // Auto-Aim Logic
-        // Use Gamepad 2 'Y' to auto-aim
-        if (gamepad2.y && limeLight.hasTarget()) {
+        // Use Gamepad 2 "Right Trigger" to auto-aim
+        if (gamepad2.right_trigger > 0.9 && limeLight.hasTarget()) {
             launcher.autoTurret(limeLight.getTx());
         }
         // D-Pad Left/Right for manual override
