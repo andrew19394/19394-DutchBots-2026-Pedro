@@ -41,16 +41,17 @@ public class MainOpmode extends OpMode {
 
         // Intake and feeder code
         if (gamepad2.left_bumper) {
-            intake.intake(-1, 0.5);
+            intake.feed(-1);
         }
         else if (gamepad2.dpad_up) {
-            intake.intake(-1,1);
+            intake.shoot(0);
         }
         else if (gamepad2.left_trigger > 0.9) {
-            intake.intake(1,0.5);
+            intake.intake(1,0.6);
         }
         else {
-            intake.intake(0, 0.5);
+            intake.intake(0, 0.6);
+            intake.feed(0);
         }
 
         // Launcher Code

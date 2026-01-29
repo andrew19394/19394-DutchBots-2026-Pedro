@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleCode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,5 +19,12 @@ public class Intake {
     public void intake(double intakepower, double angle) {
         front_intake.setPower(intakepower);
         fire.setPosition(angle);
+    }
+    public void shoot(double angle) {
+        fire.setPosition(angle);
+    }
+
+    public void feed(double speed) {
+        front_intake.setPower(speed);
     }
 }

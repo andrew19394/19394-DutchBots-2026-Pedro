@@ -57,8 +57,9 @@ public class CloseAuto extends OpMode {
         switch (pathState) {
             case Drive_STARTPOS_SHOOT_POS:
                 follower.followPath(driveStartPosShootPos, true);
-                launcher.setHood(0.25);
-                launcher.shoot(-1.0, 1.0);
+                launcher.setHood(0.4);
+                launcher.shoot(0.65, -0.65);
+                intake.shoot(0);
                 pathTimer.reset();
                 servoTimer.reset();
                 setPathState(PathState.SHOOT_PRELOAD);
@@ -70,7 +71,7 @@ public class CloseAuto extends OpMode {
                 pathTimer.reset();
 
                 if (!follower.isBusy()) {
-
+                intake.feed(-0.63);
                 }
 
                 if(pathTimer.seconds() >= 5)
