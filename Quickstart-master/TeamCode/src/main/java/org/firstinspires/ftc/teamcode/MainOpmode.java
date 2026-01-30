@@ -40,18 +40,19 @@ public class MainOpmode extends OpMode {
         drive.drive(forward,strafe,rotate);
 
         // Intake and feeder code
+        // -1 for the fire servo is the blocker
+        // 0.9 on the fire servo is all the way in
         if (gamepad2.left_bumper) {
-            intake.feed(-1);
+            intake.intake(-1,-1);
         }
         else if (gamepad2.dpad_up) {
-            intake.shoot(0);
+            intake.intake(-0.8, 0.9);
         }
         else if (gamepad2.left_trigger > 0.9) {
-            intake.intake(1,0.6);
+            intake.intake(0.5,-1);
         }
         else {
-            intake.intake(0, 0.6);
-            intake.feed(0);
+            intake.intake(0, -0.8);
         }
 
         // Launcher Code
@@ -59,7 +60,7 @@ public class MainOpmode extends OpMode {
             launcher.shoot(1,-1);
         }
         else if (gamepad2.x) {
-            launcher.shoot(0.6, -0.6);
+            launcher.shoot(0.65, -0.65);
         }
         else {
             launcher.shoot(0,0);

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.TeleCode.Intake;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
-import org.firstinspires.ftc.teamcode.TeleCode.IndexerServos;
+
 
 @Autonomous
 public class CloseAuto extends OpMode {
@@ -21,7 +21,6 @@ public class CloseAuto extends OpMode {
     private Intake intake;
 
     private ElapsedTime pathTimer = new ElapsedTime();
-    private ElapsedTime servoTimer = new ElapsedTime();
     private ElapsedTime opModeTimer = new ElapsedTime();
 
     private enum PathState {
@@ -59,9 +58,7 @@ public class CloseAuto extends OpMode {
                 follower.followPath(driveStartPosShootPos, true);
                 launcher.setHood(0.4);
                 launcher.shoot(0.65, -0.65);
-                intake.shoot(0);
-                pathTimer.reset();
-                servoTimer.reset();
+                intake.shoot(0.9);
                 setPathState(PathState.SHOOT_PRELOAD);
                 break;
             case SHOOT_PRELOAD:
@@ -74,7 +71,7 @@ public class CloseAuto extends OpMode {
                 intake.feed(-0.63);
                 }
 
-                if(pathTimer.seconds() >= 5)
+                if(pathTimer.seconds() >= 0.01)
                 {
                     setPathState(PathState.DRIVE_SHOOTPOS_INTAKE1POS);
                 }
@@ -98,7 +95,6 @@ public class CloseAuto extends OpMode {
 
     @Override
     public void init() {
-        servoTimer = new ElapsedTime();
         pathState = PathState.Drive_STARTPOS_SHOOT_POS;
         pathTimer = new ElapsedTime();
         opModeTimer = new ElapsedTime();
@@ -129,6 +125,5 @@ public class CloseAuto extends OpMode {
         telemetry.addData("Heading ", follower.getPose().getHeading());
         telemetry.addData("Path Time ", pathTimer.seconds());
         telemetry.addData("pathTimer", pathTimer.seconds());
-        telemetry.addData("servoTimer", servoTimer.seconds());
     }
 }

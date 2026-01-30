@@ -1,0 +1,147 @@
+package org.firstinspires.ftc.teamcode.Commands;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.Paths.PathsBlue;
+import org.firstinspires.ftc.teamcode.Paths.PathsRed;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.TeleCode.Intake;
+import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
+
+import dev.nextftc.core.commands.CommandManager;
+import dev.nextftc.core.commands.delays.Delay;
+import dev.nextftc.core.commands.groups.ParallelGroup;
+import dev.nextftc.core.commands.groups.SequentialGroup;
+import dev.nextftc.core.commands.utility.InstantCommand;
+import dev.nextftc.extensions.pedro.FollowPath;
+import dev.nextftc.extensions.pedro.PedroComponent;
+import dev.nextftc.ftc.NextFTCOpMode;
+
+@Autonomous(name = "CommandsBlue")
+public class CommandsBlue extends NextFTCOpMode {
+    // Pretty self-explanatory, mess around with this values if the robot takes too much time shooting
+    // Delay is always in seconds.
+    private static final double TIME_TO_SHOOT_PRELOAD = 2.5;
+    private static final double TIME_TO_SHOOT_PPG = 2.5;
+    private static final double TIME_TO_SHOOT_PGP = 2.5;
+    private static final double TIME_TO_SHOOT_GPP = 2.5;
+
+    private PathsBlue paths;
+
+    private Launcher launcher;
+    private Intake intake;
+    private SequentialGroup autoCommands;
+
+    // Let NextFTC know about Pedro
+    public CommandsBlue()
+    {
+        addComponents(
+                new PedroComponent(Constants::createFollower)
+        );
+    }
+
+    private SequentialGroup autonomousRoutine()
+    {
+        PedroComponent.follower().setStartingPose(PathsBlue.startPose);
+
+        paths = new PathsBlue(PedroComponent.follower());
+
+        launcher = new Launcher(hardwareMap);
+        intake = new Intake(hardwareMap);
+
+        InstantCommand prepareShooters = new InstantCommand(() -> {
+
+        });
+
+        InstantCommand startShooter = new InstantCommand(() -> {
+
+        });
+
+        InstantCommand stopShooter = new InstantCommand(() -> {
+
+        });
+
+        InstantCommand startIntake = new InstantCommand(() -> {
+
+        });
+
+        return new SequentialGroup(
+                // Score preloads
+                prepareShooters,
+                new FollowPath(paths.startToShoot).then(
+                        // Delay to let shooters reach desired velocity
+                        new Delay(0.5)
+                ),
+                new ParallelGroup(
+                        startShooter,
+                        new Delay(TIME_TO_SHOOT_PRELOAD)
+                ),
+                stopShooter,
+
+                // Intake and score PPG
+                new FollowPath(paths.moveToPPG).then(
+                        startIntake
+                ),
+                new FollowPath(paths.moveToIntakePPG).then(
+                        prepareShooters
+                ),
+
+                new FollowPath((paths.shootPPG)).then(
+                        new Delay(0.5)
+                ),
+                new ParallelGroup(
+                        startShooter,
+                        new Delay(TIME_TO_SHOOT_PPG)
+                ),
+                stopShooter,
+
+                // Intake and score PGP
+                new FollowPath(paths.moveToPGP).then(
+                        startIntake
+                ),
+                new FollowPath(paths.moveToIntakePGP).then(
+                        prepareShooters
+                ),
+                new FollowPath((paths.shootPGP)).then(
+                        new Delay(0.5)
+                ),
+                new ParallelGroup(
+                        startShooter,
+                        new Delay(TIME_TO_SHOOT_PGP)
+                ),
+                stopShooter,
+
+                // Intake and score GPP
+                new FollowPath(paths.moveToGPP).then(
+                        startIntake
+                ),
+                new FollowPath(paths.moveToIntakeGPP).then(
+                        prepareShooters
+                ),
+                new FollowPath((paths.shootGPP)).then(
+                        new Delay(0.5)
+                ),
+                new ParallelGroup(
+                        startShooter,
+                        new Delay(TIME_TO_SHOOT_GPP)
+                ),
+                stopShooter,
+
+                // Park
+                new FollowPath(paths.moveToPGP)
+        );
+    }
+
+    @Override
+    public void onStartButtonPressed()
+    {
+        autoCommands = autonomousRoutine();
+        autoCommands.schedule();
+    }
+
+    @Override
+    public void onUpdate()
+    {
+        CommandManager.INSTANCE.run();
+    }
+}
