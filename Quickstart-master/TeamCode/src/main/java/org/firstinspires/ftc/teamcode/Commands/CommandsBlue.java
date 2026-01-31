@@ -20,10 +20,10 @@ import dev.nextftc.ftc.NextFTCOpMode;
 public class CommandsBlue extends NextFTCOpMode {
     // Pretty self-explanatory, mess around with this values if the robot takes too much time shooting
     // Delay is always in seconds.
-    private static final double TIME_TO_SHOOT_PRELOAD = 2.5;
-    private static final double TIME_TO_SHOOT_PPG = 2.5;
-    private static final double TIME_TO_SHOOT_PGP = 2.5;
-    private static final double TIME_TO_SHOOT_GPP = 2.5;
+    private static final double TIME_TO_SHOOT_PRELOAD = 2;
+    private static final double TIME_TO_SHOOT_PPG = 2;
+    private static final double TIME_TO_SHOOT_PGP = 2;
+    private static final double TIME_TO_SHOOT_GPP = 2;
 
     private PathsBlue paths;
 
@@ -48,83 +48,101 @@ public class CommandsBlue extends NextFTCOpMode {
         launcher = new Launcher(hardwareMap);
         intake = new Intake(hardwareMap);
 
-        InstantCommand prepareShooters = new InstantCommand(() -> {
-
-        });
-
-        InstantCommand startShooter = new InstantCommand(() -> {
-
-        });
-
-        InstantCommand stopShooter = new InstantCommand(() -> {
-
+        InstantCommand startLauncher = new InstantCommand(() -> {
+            launcher.shoot(0.53, -0.53);
         });
 
         InstantCommand startIntake = new InstantCommand(() -> {
+            intake.feed(-1);
+        });
 
+        InstantCommand feedToLaunch = new InstantCommand(() -> {
+            intake.feed(-0.54);
+        });
+
+        InstantCommand stopLauncher = new InstantCommand(() -> {
+            launcher.shoot(0, 0);
+        });
+
+        InstantCommand OpenGate = new InstantCommand(() -> {
+            intake.shoot(0.9);
+        });
+
+        InstantCommand CloseGate = new InstantCommand(() -> {
+            intake.shoot(-1);
+        });
+
+        InstantCommand hood = new InstantCommand(() -> {
+            launcher.setHood(0.4);
         });
 
         return new SequentialGroup(
                 // Score preloads
-                prepareShooters,
-                new FollowPath(paths.startToShoot).then(
-                        // Delay to let shooters reach desired velocity
-                        new Delay(0.5)
+                startLauncher, OpenGate, hood,
+                new FollowPath(paths.startToShoot, true, 1.0).then(
+                        feedToLaunch,
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
-                        startShooter,
+                        startLauncher,
                         new Delay(TIME_TO_SHOOT_PRELOAD)
                 ),
-                stopShooter,
+                stopLauncher, CloseGate,
 
                 // Intake and score PPG
-                new FollowPath(paths.moveToPPG).then(
-                        startIntake
+                startIntake,
+                new FollowPath(paths.moveToPPG, true, 1.0).then(
+                        CloseGate
                 ),
-                new FollowPath(paths.moveToIntakePPG).then(
-                        prepareShooters
+                new FollowPath(paths.moveToIntakePPG, true, 0.45).then(
+                        startLauncher
                 ),
 
                 new FollowPath((paths.shootPPG)).then(
-                        new Delay(0.5)
+                        OpenGate, feedToLaunch,
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
-                        startShooter,
+                        startLauncher,
                         new Delay(TIME_TO_SHOOT_PPG)
                 ),
-                stopShooter,
+                stopLauncher, CloseGate,
 
                 // Intake and score PGP
-                new FollowPath(paths.moveToPGP).then(
-                        startIntake
+                startIntake,
+                new FollowPath(paths.moveToPGP, true, 1.0).then(
+                        CloseGate
                 ),
-                new FollowPath(paths.moveToIntakePGP).then(
-                        prepareShooters
+                new FollowPath(paths.moveToIntakePGP, true, 0.45).then(
+                        startLauncher
                 ),
                 new FollowPath((paths.shootPGP)).then(
-                        new Delay(0.5)
+                        OpenGate, feedToLaunch,
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
-                        startShooter,
+                        startLauncher,
                         new Delay(TIME_TO_SHOOT_PGP)
                 ),
-                stopShooter,
+                stopLauncher, CloseGate,
 
                 // Intake and score GPP
-                new FollowPath(paths.moveToGPP).then(
-                        startIntake
+                startIntake,
+                new FollowPath(paths.moveToGPP, true, 1.0).then(
+                        CloseGate
                 ),
-                new FollowPath(paths.moveToIntakeGPP).then(
-                        prepareShooters
+                new FollowPath(paths.moveToIntakeGPP, true, 0.45).then(
+                        startLauncher
                 ),
                 new FollowPath((paths.shootGPP)).then(
-                        new Delay(0.5)
+                        OpenGate, feedToLaunch,
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
-                        startShooter,
+                        startLauncher,
                         new Delay(TIME_TO_SHOOT_GPP)
                 ),
-                stopShooter,
+                stopLauncher,
 
                 // Park
                 new FollowPath(paths.moveToPGP)

@@ -7,16 +7,16 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class PathsBlue {
-    public static final Pose startPose = new Pose(20, 121, Math.toRadians(270));
-    final Pose shootingPose = new Pose(43, 100, Math.toRadians(312));
+    public static final Pose startPose = new Pose(124, 121, Math.toRadians(90)).mirror();
+    final Pose shootingPose = new Pose(115, 115, Math.toRadians(40)).mirror();
 
-    final Pose PPG = new Pose(89, 83, Math.toRadians(0)).mirror();
-    final Pose PGP = new Pose(89, 59, Math.toRadians(0)).mirror();
-    final Pose GPP = new Pose(89, 36, Math.toRadians(0)).mirror();
+    final Pose PPG = new Pose(100, 81, Math.toRadians(0)).mirror();
+    final Pose PGP = new Pose(100, 58, Math.toRadians(0)).mirror();
+    final Pose GPP = new Pose(100, 34, Math.toRadians(0)).mirror();
 
-    final Pose IntakePPG = new Pose(120, 83, Math.toRadians(0)).mirror();
-    final Pose IntakePGP = new Pose(125, 59, Math.toRadians(0)).mirror();
-    final Pose IntakeGPP = new Pose(125, 36, Math.toRadians(0)).mirror();
+    final Pose IntakePPG = new Pose(127, 81, Math.toRadians(0)).mirror();
+    final Pose IntakePGP = new Pose(133, 58, Math.toRadians(0)).mirror();
+    final Pose IntakeGPP = new Pose(133, 34, Math.toRadians(0)).mirror();
 
     public PathChain startToShoot;
     public PathChain moveToPPG, moveToIntakePPG, shootPPG;

@@ -47,10 +47,10 @@ public class MainOpmode extends OpMode {
             intake.intake(-1,-1);
         }
         else if (gamepad2.dpad_up) {
-            intake.intake(-0.8, 0.9);
+            intake.intake(-0.7, 0.9);
         }
         else if (gamepad2.left_trigger > 0.9) {
-            intake.intake(0.5,-1);
+            intake.intake(0.5,0.9);
         }
         else {
             intake.intake(0, -0.8);

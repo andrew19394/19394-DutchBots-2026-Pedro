@@ -11,12 +11,12 @@ public class PathsRed {
     final Pose shootingPose = new Pose(115, 115, Math.toRadians(40));
 
     final Pose PPG = new Pose(100, 81, Math.toRadians(0));
-    final Pose PGP = new Pose(100, 59, Math.toRadians(0));
-    final Pose GPP = new Pose(100, 36, Math.toRadians(0));
+    final Pose PGP = new Pose(100, 58, Math.toRadians(0));
+    final Pose GPP = new Pose(100, 34, Math.toRadians(0));
 
     final Pose IntakePPG = new Pose(127, 81, Math.toRadians(0));
-    final Pose IntakePGP = new Pose(125, 59, Math.toRadians(0));
-    final Pose IntakeGPP = new Pose(125, 36, Math.toRadians(0));
+    final Pose IntakePGP = new Pose(133, 58, Math.toRadians(0));
+    final Pose IntakeGPP = new Pose(133, 34, Math.toRadians(0));
 
     public PathChain startToShoot;
     public PathChain moveToPPG, moveToIntakePPG, shootPPG;

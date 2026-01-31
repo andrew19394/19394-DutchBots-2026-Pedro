@@ -21,10 +21,10 @@ import dev.nextftc.ftc.NextFTCOpMode;
 public class CommandsRed extends NextFTCOpMode {
     // Pretty self-explanatory, mess around with this values if the robot takes too much time shooting
     // Delay is always in seconds.
-    private static final double TIME_TO_SHOOT_PRELOAD = 2.5;
-    private static final double TIME_TO_SHOOT_PPG = 2.5;
-    private static final double TIME_TO_SHOOT_PGP = 2.5;
-    private static final double TIME_TO_SHOOT_GPP = 2.5;
+    private static final double TIME_TO_SHOOT_PRELOAD = 2;
+    private static final double TIME_TO_SHOOT_PPG = 2;
+    private static final double TIME_TO_SHOOT_PGP = 2;
+    private static final double TIME_TO_SHOOT_GPP = 2;
 
     private PathsRed paths;
 
@@ -82,9 +82,9 @@ public class CommandsRed extends NextFTCOpMode {
         return new SequentialGroup(
                 // Score preloads
                 startLauncher, OpenGate, hood,
-                new FollowPath(paths.startToShoot, true, 0.8).then(
+                new FollowPath(paths.startToShoot, true, 1.0).then(
                         feedToLaunch,
-                        new Delay(0.5)
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
                         startLauncher,
@@ -93,16 +93,17 @@ public class CommandsRed extends NextFTCOpMode {
                 stopLauncher, CloseGate,
 
                 // Intake and score PPG
-                new FollowPath(paths.moveToPPG).then(
-                        CloseGate,startIntake
+                startIntake,
+                new FollowPath(paths.moveToPPG, true, 1.0).then(
+                        CloseGate
                 ),
-                new FollowPath(paths.moveToIntakePPG, true, 0.4).then(
-                        startLauncher, startIntake
+                new FollowPath(paths.moveToIntakePPG, true, 0.45).then(
+                        startLauncher
                 ),
 
                 new FollowPath((paths.shootPPG)).then(
                         OpenGate, feedToLaunch,
-                        new Delay(0.5)
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
                         startLauncher,
@@ -111,15 +112,16 @@ public class CommandsRed extends NextFTCOpMode {
                 stopLauncher, CloseGate,
 
                 // Intake and score PGP
-                new FollowPath(paths.moveToPGP).then(
-                        CloseGate, startIntake
+                startIntake,
+                new FollowPath(paths.moveToPGP, true, 1.0).then(
+                        CloseGate
                 ),
-                new FollowPath(paths.moveToIntakePGP, true, 0.4).then(
-                        startLauncher, startIntake
+                new FollowPath(paths.moveToIntakePGP, true, 0.45).then(
+                        startLauncher
                 ),
                 new FollowPath((paths.shootPGP)).then(
                         OpenGate, feedToLaunch,
-                        new Delay(0.5)
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
                         startLauncher,
@@ -128,15 +130,16 @@ public class CommandsRed extends NextFTCOpMode {
                 stopLauncher, CloseGate,
 
                 // Intake and score GPP
-                new FollowPath(paths.moveToGPP).then(
-                        CloseGate, startIntake
+                startIntake,
+                new FollowPath(paths.moveToGPP, true, 1.0).then(
+                        CloseGate
                 ),
-                new FollowPath(paths.moveToIntakeGPP, true, 0.4).then(
-                        startLauncher, startIntake
+                new FollowPath(paths.moveToIntakeGPP, true, 0.45).then(
+                        startLauncher
                 ),
                 new FollowPath((paths.shootGPP)).then(
                         OpenGate, feedToLaunch,
-                        new Delay(0.5)
+                        new Delay(0.05)
                 ),
                 new ParallelGroup(
                         startLauncher,
