@@ -7,14 +7,14 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class PathsRed {
-    public static final Pose startPose = new Pose(124, 121, Math.toRadians(270));
-    final Pose shootingPose = new Pose(101, 101, Math.toRadians(228));
+    public static final Pose startPose = new Pose(124, 121, Math.toRadians(90));
+    final Pose shootingPose = new Pose(115, 115, Math.toRadians(40));
 
-    final Pose PPG = new Pose(89, 83, Math.toRadians(0));
-    final Pose PGP = new Pose(89, 59, Math.toRadians(0));
-    final Pose GPP = new Pose(89, 36, Math.toRadians(0));
+    final Pose PPG = new Pose(100, 81, Math.toRadians(0));
+    final Pose PGP = new Pose(100, 59, Math.toRadians(0));
+    final Pose GPP = new Pose(100, 36, Math.toRadians(0));
 
-    final Pose IntakePPG = new Pose(120, 83, Math.toRadians(0));
+    final Pose IntakePPG = new Pose(127, 81, Math.toRadians(0));
     final Pose IntakePGP = new Pose(125, 59, Math.toRadians(0));
     final Pose IntakeGPP = new Pose(125, 36, Math.toRadians(0));
 

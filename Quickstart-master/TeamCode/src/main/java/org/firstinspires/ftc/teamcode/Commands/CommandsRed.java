@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Paths.PathsRed;
 import org.firstinspires.ftc.teamcode.TeleCode.Intake;
@@ -48,80 +49,93 @@ public class CommandsRed extends NextFTCOpMode {
         launcher = new Launcher(hardwareMap);
         intake = new Intake(hardwareMap);
 
-        InstantCommand startLauncher = new InstantCommand(() -> {
 
+        InstantCommand startLauncher = new InstantCommand(() -> {
+            launcher.shoot(0.53, -0.53);
         });
 
         InstantCommand startIntake = new InstantCommand(() -> {
+            intake.feed(-1);
+        });
 
+        InstantCommand feedToLaunch = new InstantCommand(() -> {
+            intake.feed(-0.54);
         });
 
         InstantCommand stopLauncher = new InstantCommand(() -> {
-
+            launcher.shoot(0, 0);
         });
 
         InstantCommand OpenGate = new InstantCommand(() -> {
-
+            intake.shoot(0.9);
         });
 
         InstantCommand CloseGate = new InstantCommand(() -> {
-
+            intake.shoot(-1);
         });
+
+        InstantCommand hood = new InstantCommand(() -> {
+            launcher.setHood(0.4);
+        });
+
 
         return new SequentialGroup(
                 // Score preloads
-                startLauncher,
-                new FollowPath(paths.startToShoot).then(
-                        // Delay to let shooters reach desired velocity
+                startLauncher, OpenGate, hood,
+                new FollowPath(paths.startToShoot, true, 0.8).then(
+                        feedToLaunch,
                         new Delay(0.5)
                 ),
                 new ParallelGroup(
-                        startLauncher, OpenGate,
+                        startLauncher,
                         new Delay(TIME_TO_SHOOT_PRELOAD)
                 ),
-                stopLauncher,
+                stopLauncher, CloseGate,
 
                 // Intake and score PPG
                 new FollowPath(paths.moveToPPG).then(
-                        startIntake
+                        CloseGate,startIntake
                 ),
-                new FollowPath(paths.moveToIntakePPG).then(
-                        startLauncher
+                new FollowPath(paths.moveToIntakePPG, true, 0.4).then(
+                        startLauncher, startIntake
                 ),
 
                 new FollowPath((paths.shootPPG)).then(
+                        OpenGate, feedToLaunch,
                         new Delay(0.5)
                 ),
                 new ParallelGroup(
                         startLauncher,
                         new Delay(TIME_TO_SHOOT_PPG)
                 ),
-                stopLauncher,
+                stopLauncher, CloseGate,
 
                 // Intake and score PGP
                 new FollowPath(paths.moveToPGP).then(
-                        startIntake
+                        CloseGate, startIntake
                 ),
-                new FollowPath(paths.moveToIntakePGP).then(
-                        startLauncher
+                new FollowPath(paths.moveToIntakePGP, true, 0.4).then(
+                        startLauncher, startIntake
                 ),
                 new FollowPath((paths.shootPGP)).then(
+                        OpenGate, feedToLaunch,
                         new Delay(0.5)
                 ),
                 new ParallelGroup(
                         startLauncher,
                         new Delay(TIME_TO_SHOOT_PGP)
                 ),
-                stopLauncher,
+                stopLauncher, CloseGate,
 
                 // Intake and score GPP
                 new FollowPath(paths.moveToGPP).then(
-                        startIntake
+                        CloseGate, startIntake
                 ),
-                new FollowPath(paths.moveToIntakeGPP).then(
-                        startLauncher
+                new FollowPath(paths.moveToIntakeGPP, true, 0.4).then(
+                        startLauncher, startIntake
                 ),
                 new FollowPath((paths.shootGPP)).then(
+                        OpenGate, feedToLaunch,
                         new Delay(0.5)
                 ),
                 new ParallelGroup(

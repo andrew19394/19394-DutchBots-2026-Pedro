@@ -30,6 +30,7 @@ public class MainOpmode extends OpMode {
 
     @Override
     public void loop() {
+        // intilzes the triggers and because they are floats
         double triggerValue = gamepad2.right_trigger;
         double triggerValue2 = gamepad2.left_trigger;
 
@@ -55,7 +56,7 @@ public class MainOpmode extends OpMode {
             intake.intake(0, -0.8);
         }
 
-        // Launcher Code
+        // Launcher speed code
         if (gamepad2.right_bumper) {
             launcher.shoot(1,-1);
         }
@@ -66,7 +67,7 @@ public class MainOpmode extends OpMode {
             launcher.shoot(0,0);
         }
 
-        // Hood code
+        // Hood angle code
         if (gamepad2.a) {
             launcher.setHood(.55);
         }
@@ -88,6 +89,14 @@ public class MainOpmode extends OpMode {
         }
         else {
             launcher.moveturret(0);
+        }
+
+        // Switches the pipline of the limelight so we can aim on both sides
+        if (gamepad1.x) {
+            limeLight.switchRed();
+        }
+        else if (gamepad1.circle) {
+            limeLight.switchBlue();
         }
 
         // Update Telemetry

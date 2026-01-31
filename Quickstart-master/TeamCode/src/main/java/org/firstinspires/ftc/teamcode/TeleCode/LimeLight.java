@@ -5,8 +5,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import org.firstinspires.ftc.robotcore.external.Telemetry; // Use this instead of Blocks
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class LimeLight {
@@ -27,6 +26,15 @@ public class LimeLight {
         limelight.start(); // Ensure the limelight starts capturing
     }
 
+    // Switches the pipline so the auto aim works on red
+    public void switchRed() {
+        limelight.pipelineSwitch(1);
+    }
+
+    // Switches the pipline so the auto aim works on blue
+    public void switchBlue() {
+        limelight.pipelineSwitch(0);
+    }
 
      // Checks if the Limelight currently sees a valid target.
 

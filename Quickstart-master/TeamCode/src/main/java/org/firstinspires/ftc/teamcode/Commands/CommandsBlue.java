@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Paths.PathsBlue;
-import org.firstinspires.ftc.teamcode.Paths.PathsRed;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.TeleCode.Intake;
 import org.firstinspires.ftc.teamcode.TeleCode.Launcher;
